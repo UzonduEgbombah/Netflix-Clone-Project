@@ -24,8 +24,9 @@ Clone the Code:
 
 - Clone your application's code repository onto the EC2 instance:
 
+```sh
 git clone https://github.com/N4si/DevSecOps-Project.git
-
+```
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/0b77e04d-cdfb-4c01-b97c-3b559d8d93c5)
 
@@ -36,23 +37,27 @@ Step 3:
 
 - Set up Docker on the EC2 instance:
 
-- sudo apt-get update
-
+```sh
+sudo apt-get update
+```
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/77992070-0a58-4868-9bd9-5fffb2465931)
 
 
-- sudo apt-get install docker.io -y
-
+```sh
+sudo apt-get install docker.io -y
+```
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/e15c8615-8aad-457c-8069-b396d863d78d)
 
 
-- sudo usermod -aG docker $USER  # Replace with your system's username, e.g., 'ubuntu'
+```sh
+sudo usermod -aG docker $USER  # Replace with your system's username, e.g., 'ubuntu'
 
-- newgrp docker
+newgrp docker
 
-- sudo chmod 777 /var/run/docker.sock
+sudo chmod 777 /var/run/docker.sock
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/fef4ae23-463f-4d09-83dc-8e62ac65470b)
@@ -60,7 +65,9 @@ Step 3:
 
 Build and run your application using Docker containers:
 
-- docker build -t netflix .
+```sh
+  docker build -t netflix .
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/ce41a61f-ed52-4fe2-b4eb-1c72c24d034e)
@@ -72,7 +79,9 @@ Build and run your application using Docker containers:
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/19d3d466-05ba-4edb-9113-d13ed12732df)
 
 
-- docker run -d --name netflix -p 8081:80 netflix:latest
+```sh
+ docker run -d --name netflix -p 8081:80 netflix:latest
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/0e149ade-aec9-4d91-a519-00acd82fce78)
@@ -84,9 +93,15 @@ Build and run your application using Docker containers:
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/0055e5f1-5127-4f23-a370-4366c089d216)
 
 
-to delete
+To delete
+
+```sh
 docker stop <containerid>
+```
+```sh
 docker rmi -f netflix
+```
+
 It will show an error cause you need API key
 
 Step 4:
@@ -108,8 +123,9 @@ Step 4:
 
 #### Now recreate the Docker image with your api key:
 
-- docker build --build-arg TMDB_V3_API_KEY=<your-api-key> -t netflix .
-
+```sh
+docker build --build-arg TMDB_V3_API_KEY=<your-api-key> -t netflix .
+```
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/b00ad155-aec0-4000-aa0c-6f6154250c02)
 
@@ -142,8 +158,9 @@ Security
 
 sonarqube
 
-`docker run -d --name sonar -p 9000:9000 sonarqube:lts-community`
-
+```sh
+docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
+```
 To access:
 
 publicIP:9000 (by default username & password is admin)
@@ -158,11 +175,13 @@ publicIP:9000 (by default username & password is admin)
 
 To install Trivy:
 
-`sudo apt-get install wget apt-transport-https gnupg lsb-release
+```sh
+sudo apt-get install wget apt-transport-https gnupg lsb-release
 wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
 echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
 sudo apt-get update
-sudo apt-get install trivy`        
+sudo apt-get install trivy`
+```      
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/4eddd45a-e6b2-4888-ae10-2b04ca82fa6b)
@@ -190,16 +209,19 @@ Phase 3: CI/CD Setup
 
 - Install Jenkins on the EC2 instance to automate deployment: Install Java
 
-`sudo apt update
+```sh
+sudo apt update
 sudo apt install fontconfig openjdk-17-jre
 java -version
 openjdk version "17.0.8" 2023-07-18
 OpenJDK Runtime Environment (build 17.0.8+7-Debian-1deb12u1)
 OpenJDK 64-Bit Server VM (build 17.0.8+7-Debian-1deb12u1, mixed mode, sharing)`
+```
 
 ####jenkins
 
-`sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+```sh
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
 https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
 https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
@@ -208,6 +230,7 @@ sudo apt-get update
 sudo apt-get install jenkins
 sudo systemctl start jenkins
 sudo systemctl enable jenkins`
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/376ee674-dfdb-465b-b013-152494c1d5eb)
@@ -273,7 +296,8 @@ Configure CI/CD Pipeline in Jenkins:
 - Create a CI/CD pipeline in Jenkins to automate your application deployment.
 
 
-`pipeline {
+```sh
+pipeline {
     
     agent any
     tools {
@@ -323,6 +347,7 @@ Configure CI/CD Pipeline in Jenkins:
         }
     }
 }`
+```
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/193bacad-b131-45f3-8459-6e524d97662f)
 
@@ -411,7 +436,7 @@ Now, you have installed the Dependency-Check plugin, configured the tool, and ad
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/8cdd5ca3-05cb-4fb0-a4ff-fd5d995e64e3)
 
 
-`
+```sh
 pipeline{
     agent any
     
@@ -501,16 +526,17 @@ pipeline{
         }
     }
 }`
-
-
+```
 
 
 
 If you get docker login failed errorr
 
-` sudo su
+```sh
+ sudo su
  sudo usermod -aG docker jenkins
  sudo systemctl restart jenkins `
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/63d4b730-21ae-40ba-92ae-950c4fad2de9)
@@ -537,24 +563,27 @@ Phase 4:
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/f18befea-5e39-447c-9db9-ba2a8f0d6089)
 
-
-- sudo useradd --system --no-create-home --shell /bin/false prometheus
+```sh
+sudo useradd --system --no-create-home --shell /bin/false prometheus
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/fd0175a6-1b4c-402d-944d-a2cf83745459)
 
-
-- wget https://github.com/prometheus/prometheus/releases/download/v2.47.1/prometheus-2.47.1.linux-amd64.tar.gz
+```sh
+ wget https://github.com/prometheus/prometheus/releases/download/v2.47.1/prometheus-2.47.1.linux-amd64.tar.gz
+```
 
 - Extract Prometheus files, move them, and create directories:
 
-
+```sh
 ` tar -xvf prometheus-2.47.1.linux-amd64.tar.gz
  cd prometheus-2.47.1.linux-amd64/
  sudo mkdir -p /data /etc/prometheus
  sudo mv prometheus promtool /usr/local/bin/
  sudo mv consoles/ console_libraries/ /etc/prometheus/
  sudo mv prometheus.yml /etc/prometheus/prometheus.yml `
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/3e167423-ffa3-4291-a3f1-b3acd7d2eacd)
@@ -562,14 +591,17 @@ Phase 4:
   
 #### Set ownership for directories:
 
+```sh
 sudo chown -R prometheus:prometheus /etc/prometheus/ /data/
 Create a systemd unit configuration file for Prometheus:
 
 sudo nano /etc/systemd/system/prometheus.service
+```
+
 Add the following content to the prometheus.service file:
 
 
-
+```sh
 [Unit]
 Description=Prometheus
 Wants=network-online.target
@@ -594,6 +626,7 @@ ExecStart=/usr/local/bin/prometheus \
   
 [Install]
 WantedBy=multi-user.target
+```
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/e9edb8d3-936b-4c48-b440-263b7436c0fb)
 
@@ -634,17 +667,20 @@ http://<your-server-ip>:9090
 
 Create a system user for Node Exporter and download Node Exporter:
 
+```sh
 ` sudo useradd --system --no-create-home --shell /bin/false node_exporter
  wget https://github.com/prometheus/node_exporter/releases/download/v1.6.1/node_exporter-1.6.1.linux-amd64.tar.gz
  Extract Node Exporter files, move the binary, and clean up: `
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/7a3bb856-9d15-44be-9d2a-ada54ca32c89)
 
-
+```sh
 ` tar -xvf node_exporter-1.6.1.linux-amd64.tar.gz
  sudo mv node_exporter-1.6.1.linux-amd64/node_exporter /usr/local/bin/
  rm -rf node_exporter* `
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/206f6b9f-0847-4782-b48b-89c9cee3b70b)
@@ -652,10 +688,13 @@ Create a system user for Node Exporter and download Node Exporter:
 
 Create a systemd unit configuration file for Node Exporter:
 
-- sudo nano /etc/systemd/system/node_exporter.service
+```sh
+sudo nano /etc/systemd/system/node_exporter.service
+```
 
 - Add the following content to the node_exporter.service file:
 
+```sh
 [Unit]
 Description=Node Exporter
 Wants=network-online.target
@@ -675,6 +714,7 @@ ExecStart=/usr/local/bin/node_exporter --collector.logind
 [Install]
 WantedBy=multi-user.target
 Replace --collector.logind with any additional flags as needed.
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/245e3fa9-8625-43dd-a6df-1873253f9a13)
@@ -682,9 +722,11 @@ Replace --collector.logind with any additional flags as needed.
 
 #### Enable and start Node Exporter:
 
-- sudo systemctl enable node_exporter
+```sh
+sudo systemctl enable node_exporter
   
-- sudo systemctl start node_exporter
+sudo systemctl start node_exporter
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/0b72844d-295c-49d9-9dfa-975376ef09da)
@@ -693,8 +735,9 @@ Replace --collector.logind with any additional flags as needed.
 
 Verify the Node Exporter's status:
 
-- sudo systemctl status node_exporter
-
+```sh
+sudo systemctl status node_exporter
+```
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/5e92f8b4-97ba-44db-aa20-269349929ac0)
 
@@ -710,6 +753,7 @@ Prometheus Configuration:
 
 To configure Prometheus to scrape metrics from Node Exporter and Jenkins, you need to modify the prometheus.yml file. Here is an example prometheus.yml configuration for your setup:
 
+```sh
 ` global:
    
    scrape_interval: 15s
@@ -727,6 +771,7 @@ To configure Prometheus to scrape metrics from Node Exporter and Jenkins, you ne
      static_configs:
          
          targets: ['<your-jenkins-ip>:<your-jenkins-port>'] `
+```
    
     
 - Make sure to replace <your-jenkins-ip> and <your-jenkins-port> with the appropriate values for your Jenkins setup.
@@ -762,15 +807,19 @@ http://<your-prometheus-ip>:9090/targets
 
 - First, ensure that all necessary dependencies are installed:
 
+```sh
 ` sudo apt-get update
  sudo apt-get install -y apt-transport-https software-properties-common `
+```
 
 
 #### Step 2: Add the GPG Key:
 
 - Add the GPG key for Grafana:
 
+```sh
 ` wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add - `
+```
 
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/005243f5-bd30-4170-88e7-a30891b396a3)
@@ -780,8 +829,9 @@ http://<your-prometheus-ip>:9090/targets
 
 - Add the repository for Grafana stable releases:
 
-` echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list `
-
+```sh
+echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list `
+```
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/356f6185-c9fc-44a1-8a24-bf8e86b0c386)
 
@@ -790,25 +840,28 @@ http://<your-prometheus-ip>:9090/targets
 
 - Update the package list and install Grafana:
 
+```sh
 ` sudo apt-get update
   sudo apt-get -y install grafana `
-
+```
 #### Step 5: Enable and Start Grafana Service:
 
 - To automatically start Grafana after a reboot, enable the service:
 
+```sh
 ` sudo systemctl enable grafana-server `
-
+```
 - Then, start Grafana:
-
+```sh
 ` sudo systemctl start grafana-server `
-
+```
 #### Step 6: Check Grafana Status:
 
 - Verify the status of the Grafana service to ensure it's running correctly:
 
+```sh
 ` sudo systemctl status grafana-server `
-
+```
 
 ![](https://github.com/UzonduEgbombah/Netflix-Clone-Project/assets/137091610/f11c84c1-3680-4af0-a2f5-ccfcacc50608)
 
